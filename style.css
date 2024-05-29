@@ -45,7 +45,7 @@ h3{
   .start-screen,
   .score-container {
   margin-top: 10%; /* Ajusta este valor para subir más el contenedor */
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -70%);
   position: absolute;
   left: 50%;
   top: 50%;
@@ -91,6 +91,7 @@ h3{
     left: 20px; /* Distancia desde el borde derecho */
     bottom: 20px; /* Distancia desde el borde inferior */
   }
+
   #intentos:hover {
     background: #da88ed;
     color: #e1f5fe;
@@ -164,6 +165,21 @@ h3{
     left: 50%;
     border-radius: 0.6em;
 }
+
+#estado-container {
+  margin-top: 20px;
+  background-color: #ffffff;
+  padding: 3.1em 1.8em;
+  width: 80%;
+  max-width: 37.5em;
+  margin: 0 auto;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 0.6em;
+}
+
 #close {
   background: #ea474a;
   color: #e1f5fe;

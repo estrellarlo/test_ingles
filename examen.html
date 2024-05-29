@@ -16,7 +16,7 @@
     </div>
   </header>
 
-  <div class="start-screen">
+  <div class="start-screen" class="hide">
     <h1>Hola <span id="nombre"></span></h1>
     <h2>Elige el examen que vas a resolver</h2>
     <p><br></p>
@@ -33,7 +33,7 @@
 
   <div id="calificaciones-container" class="hide">
     <h1>Mis Calificaciones</h1>
-    <p>Estado: <span id=""></span></p>
+    <p>Estado: <span id="estado"></span></p>
     <table>
       <thead>
         <tr>
@@ -48,7 +48,6 @@
     <p>Tu nivel de inglés es <span id="nivel"></span></p>
     <button id="close">Cerrar</button>
   </div>
-
 
   <div id="display-container">
     <div class="header">
@@ -68,6 +67,8 @@
 
   <div class="score-container hide">
     <h2><span id="user-score"></span></h2>
+    <h3>Tu nivel de inglés es <span id="nivel"></span></h3>
+    <h3>Estado: <span id="estado"></span></h3>
     <button id="restart">Regresar</button>
   </div>
 
@@ -76,11 +77,6 @@
     <button id="intentos">Ver mis examenes</button>
   </div>
 
-
-  <!--div id="maximo-container hide">
-    <h3>HAZ ALCANZADO EL NÚMERO MÁXIMO DE INTENTOS</h3>
-    <button id="restart">Regresar</button>
-  </div-->
 
   <script src="cuestionario.js"></script>
 </body>

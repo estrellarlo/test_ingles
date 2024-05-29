@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let calificacionesTbody = document.getElementById('calificaciones-tbody');
   let closeButton = document.getElementById('close');
 
+  if (!calificacionesContainer || !calificacionesTbody || !intentosButton || !cerrarButton || !closeButton) {
+    console.error('Error: Elementos del DOM no encontrados');
+    return;
+  }
+
   let quizArray = [];
   let questionCount;
   let scoreCount = 0;
@@ -43,14 +48,43 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => console.error('Error al cerrar sesión:', error));
   });
 
-  // Ver calificaciones
-  intentosButton.addEventListener('click', () => {
-    fetch('/calificaciones')
-    .then(response => response.json())
-    .then(data => {
+   // Obtener nivel, estado y calificaciones
+   intentosButton.addEventListener('click', () => {
+    // Realizar ambas solicitudes en paralelo
+    Promise.all([
+      fetch('/estado').then(response => {
+        if (!response.ok) {
+          throw new Error(response.status === 401 ? 'No autorizado' : 'Error al obtener el estado y nivel de inglés');
+        }
+        return response.json();
+      }),
+      fetch('/calificaciones').then(response => {
+        if (!response.ok) {
+          throw new Error('Error al obtener las calificaciones');
+        }
+        return response.json();
+      })
+    ])
+    .then(([estadoData, calificacionesData]) => {
+      console.log('Datos recibidos de /estado:', estadoData);
+      console.log('Datos recibidos de /calificaciones:', calificacionesData);
+
+      // Actualizar el estado y nivel de inglés
+      const estadoElement = document.getElementById('estado');
+      const nivelInglesElement = document.getElementById('nivel');
+      if (estadoElement && nivelInglesElement) {
+        const { estado, nivel } = estadoData;
+        estadoElement.textContent = estado;
+        nivelInglesElement.textContent = nivel;
+      } else {
+        console.error('Error: Elementos para estado y nivel de inglés no encontrados');
+      }
+
+      // Actualizar las calificaciones
       calificacionesTbody.innerHTML = '';
-      if (data && data.length > 0) {
-        data.forEach(calificacion => {
+      
+      if (calificacionesData && calificacionesData.length > 0) {
+        calificacionesData.forEach(calificacion => {
           const row = `
             <tr>
               <td>${calificacion.tipo}</td>
@@ -62,15 +96,24 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         const row = `
           <tr>
-            <td colspan="3">No se encontraron calificaciones.</td>
+            <td colspan="2">No se encontraron calificaciones.</td>
           </tr>
         `;
         calificacionesTbody.innerHTML = row;
       }
+
+      // Mostrar el contenedor de calificaciones
       calificacionesContainer.classList.remove('hide');
     })
-    .catch(error => console.error('Error al obtener las calificaciones:', error));
+    .catch(error => {
+      console.error('Error:', error.message);
+      alert(error.message);
+    });
   });
+
+
+
+
 
   // Cerrar calificaciones
   closeButton.addEventListener('click', () => {
@@ -91,6 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
   .catch(error => {
     console.error('Error al obtener el nombre del usuario:', error);
   });
+
+
+
+
 
   // Manejar examen en progreso
   const savedExamType = localStorage.getItem('examType');
@@ -138,21 +185,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Iniciar examen
   function startExam() {
     startScreen.classList.add("hide");
     displayContainer.classList.remove("hide");
     sessionContainer.classList.add("hide"); // Ocultar el contenedor de sesión
-    fetchQuestions(examType);
-    localStorage.setItem('examType', examType);
-    localStorage.setItem('inProgress', 'true');
-  }
-
-  // Obtener preguntas del examen
-  function fetchQuestions(examType) {
-    fetch(`/examen?examType=${examType}`)
-      .then(response => response.json())
-      .then(data => {
+     fetchQuestions(examType);
+     localStorage.setItem('examType', examType);
+     localStorage.setItem('inProgress', 'true');
+   }
+ 
+ // Obtener preguntas del examen
+// Obtener preguntas del examen
+function fetchQuestions(examType) {
+  fetch(`/examen?examType=${examType}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.maxIntentosAlcanzados) {
+        // Si los intentos han sido excedidos, mostrar el mensaje y no mostrar el examen
+        alert(data.message);
+        startScreen.classList.remove("hide");
+        displayContainer.classList.add("hide");
+        sessionContainer.classList.remove("hide"); // Mostrar el contenedor de sesión si es necesario
+      } else {
+        // Si los intentos no han sido excedidos, mostrar las preguntas del examen
         quizArray = data.reduce((acc, item) => {
           let existingQuestion = acc.find(q => q.id_pregunta === item.id_pregunta);
           if (existingQuestion) {
@@ -169,25 +224,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }, []);
         
         initial();
-      })
-      .catch(error => console.error('Error al obtener las preguntas:', error));
-  }
+      }
+    })
+    .catch(error => console.error('Error al obtener las preguntas:', error));
+}
 
-  // Enviar calificación
-  function sendCalificacion(score, examType) {
-    fetch('/actualizarCalificacion', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ score, examType })
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Calificación actualizada:', data);
-    })
-    .catch(error => console.error('Error al actualizar la calificación:', error));
-  }
+
+// Enviar calificación y obtener nivel y estado
+function sendCalificacion(score, examType) {
+  fetch('/actualizarCalificacion', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ score, examType })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al actualizar la calificación');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Calificación actualizada:', data);
+    // Actualizar nivel y estado en la interfaz de usuario
+    document.getElementById('nivel').textContent = data.nivel;
+    document.getElementById('estado').textContent = data.estado;
+  })
+  .catch(error => console.error('Error al actualizar la calificación:', error));
+}
 
   // Inicializar examen
   function initial() {

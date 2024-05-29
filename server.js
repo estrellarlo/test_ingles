@@ -39,79 +39,106 @@ app.get('/', (req, res) => {
 // Registro de estudiantes
 app.post('/registro', async (req, res) => {
   try {
-      // Obtener los datos del cuerpo de la solicitud
-      const { nombre, matricula, correo, contrasena } = req.body;
-      
+    // Obtener los datos del cuerpo de la solicitud
+    const { nombre, matricula, correo, contrasena } = req.body;
 
-      // Ejecutar la consulta SQL para insertar un nuevo estudiante
-      await connection.query("INSERT INTO Estudiante (Nombre, matricula, Correo, Contraseña) VALUES (?, ?, ?, ?)", [nombre, matricula, correo, contrasena]);
 
-      //res.status(200).send('Registro exitoso');
-      res.redirect('/index.html');
+    // Ejecutar la consulta SQL para insertar un nuevo estudiante
+    await connection.query("INSERT INTO Estudiante (Nombre, matricula, Correo, Contraseña) VALUES (?, ?, ?, ?)", [nombre, matricula, correo, contrasena]);
+
+    //res.status(200).send('Registro exitoso');
+    res.redirect('/index.html');
   } catch (err) {
-      console.error('Error en el registro:', err);
-      res.status(500).send('Error interno del servidor');
+    console.error('Error en el registro:', err);
+    res.status(500).send('Error interno del servidor');
   }
 });
 
 // Inicio de sesión
 app.post('/login', async (req, res) => {
   try {
-      // Obtener los datos del cuerpo de la solicitud
-      const { correo, contrasena } = req.body;
+    // Obtener los datos del cuerpo de la solicitud
+    const { correo, contrasena } = req.body;
 
-      // Ejecutar la consulta SQL para buscar el usuario por correo y contraseña
-      const query = "SELECT * FROM Estudiante WHERE Correo = ? AND Contraseña = ?";
-      connection.query(query, [correo, contrasena], (err, result) => {
-          if (err) {
-              console.error('Error al ejecutar la consulta:', err);
-              res.status(500).send('Error interno del servidor');
-              return;
-          }
+    // Ejecutar la consulta SQL para buscar el usuario por correo y contraseña
+    const query = "SELECT * FROM Estudiante WHERE Correo = ? AND Contraseña = ?";
+    connection.query(query, [correo, contrasena], (err, result) => {
+      if (err) {
+        console.error('Error al ejecutar la consulta:', err);
+        res.status(500).send('Error interno del servidor');
+        return;
+      }
 
-          if (result.length > 0) {
-               // Almacenar la matrícula en la sesión
-              req.session.matricula = result[0].matricula;
+      if (result.length > 0) {
+        // Almacenar la matrícula en la sesión
+        req.session.matricula = result[0].matricula;
 
-              res.status(200).sendFile(path.join(__dirname, 'examen.html'));
-          } else {
-              // Si no se encontró un usuario con el correo y la contraseña proporcionados
-              console.error('Error al ejecutar la consulta:', err);
-              res.status(401).send('Correo o contraseña incorrectos');
-          }
-      });
+        res.status(200).sendFile(path.join(__dirname, 'examen.html'));
+      } else {
+        // Si no se encontró un usuario con el correo y la contraseña proporcionados
+        console.error('Error al ejecutar la consulta:', err);
+        res.status(401).send('Correo o contraseña incorrectos');
+      }
+    });
   } catch (err) {
-      console.error('Error en el inicio de sesión:', err);
-      res.status(500).send('Error interno del servidor');
+    console.error('Error en el inicio de sesión:', err);
+    res.status(500).send('Error interno del servidor');
   }
 });
 
-//nombre de usuario
+// obtener nombre de usuario
 app.get('/user', (req, res) => {
   const matricula = req.session.matricula;
 
   if (!matricula) {
-      res.status(401).send('No autorizado');
-      return;
+    res.status(401).send('No autorizado');
+    return;
   }
 
   const query = 'SELECT Nombre FROM Estudiante WHERE matricula = ?';
   connection.query(query, [matricula], (err, results) => {
-      if (err) {
-          console.error('Error al obtener el nombre del usuario:', err);
-          res.status(500).send('Error interno del servidor');
-          return;
-      }
+    if (err) {
+      console.error('Error al obtener el nombre del usuario:', err);
+      res.status(500).send('Error interno del servidor');
+      return;
+    }
 
-      if (results.length === 0) {
-          res.status(404).send('Usuario no encontrado');
-      } else {
-          res.json({ Nombre: results[0].Nombre });
-      }
+    if (results.length === 0) {
+      res.status(404).send('Usuario no encontrado');
+    } else {
+      res.json({ Nombre: results[0].Nombre });
+    }
   });
 });
 
+//obtener estado y nivel
+app.get('/estado', (req, res) => {
+  const matricula = req.session.matricula;
 
+  if (!matricula) {
+    res.status(401).send('No autorizado');
+    return;
+  }
+
+  const query = 'SELECT estado, nivel FROM Estudiante WHERE matricula = ?';
+  connection.query(query, [matricula], (err, results) => {
+    if (err) {
+      console.error('Error al obtener el estado y nivel de inglés:', err);
+      res.status(500).send('Error interno del servidor');
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).send('Estudiante no encontrado');
+    } else {
+      console.log('Resultados de la consulta /estado:', results);
+      const { estado, nivel } = results[0];
+      res.json({ estado, nivel });
+    }
+  });
+});
+
+//generar examen
 app.get('/examen', async (req, res) => {
   try {
     const matricula = req.session.matricula;
@@ -146,9 +173,9 @@ app.get('/examen', async (req, res) => {
       // Verificar si el estudiante ha excedido el número máximo de intentos
       const intentosPrevios = intentoResults[0][intentoColumn];
       if (intentosPrevios >= maxIntentos) {
-          const mensaje = `Has excedido el número máximo de intentos (${maxIntentos}). Por favor, contacta a tu instructor.`;
-          res.status(403).json({ message: mensaje });
-          return;
+        const mensaje = `Has excedido el número máximo de intentos (${maxIntentos}). Por favor, contacta a tu instructor.`;
+        res.status(403).json({ message: mensaje, maxIntentosAlcanzados: true });
+        return;
       }
 
       // Generar el examen si el estudiante no ha excedido el límite de intentos
@@ -263,17 +290,21 @@ app.get('/examen', async (req, res) => {
           }
 
           // Insertar un nuevo registro en la tabla Calificacion
-          const insertQuery = `INSERT INTO Calificacion (tipo, matricula_estudiante) VALUES (?, ?)`;
-          connection.query(insertQuery, [examType, matricula], (insertErr, insertResults) => {
-            if (insertErr) {
-              console.error('Error al insertar en la tabla Calificacion:', insertErr);
-              res.status(500).send('Error interno del servidor');
-              return;
-            }
+          if (intentosPrevios < maxIntentos) {
+            const insertQuery = `INSERT INTO Calificacion (tipo, matricula_estudiante) VALUES (?, ?)`;
+            connection.query(insertQuery, [examType, matricula], (insertErr, insertResults) => {
+              if (insertErr) {
+                console.error('Error al insertar en la tabla Calificacion:', insertErr);
+                res.status(500).send('Error interno del servidor');
+                return;
+              }
 
-            console.log('Examen generado exitosamente.');
-            res.json(results);
-          });
+              console.log('Examen generado exitosamente.');
+              res.json(results);
+            });
+          } else {
+            res.status(403).json({ message: `Has excedido el número máximo de intentos (${maxIntentos}). Por favor, contacta a tu instructor.` });
+          }
         });
       });
     });
@@ -281,10 +312,9 @@ app.get('/examen', async (req, res) => {
     console.error('Error al cargar el examen:', err);
     res.status(500).send('Error interno del servidor');
   }
-});
+}); 
 
-
-
+//llenar tabla calificacion
 app.post('/actualizarCalificacion', (req, res) => {
   try {
     const { score, examType } = req.body;
@@ -323,7 +353,7 @@ app.post('/actualizarCalificacion', (req, res) => {
       // Actualizar la columna calificacion y nivel en la tabla Estudiante
       const updateEstudianteQuery = `
         UPDATE Estudiante 
-        SET calificacion = ?, nivel = ? 
+        SET estado = ?, nivel = ? 
         WHERE matricula = ?
       `;
 
@@ -344,12 +374,12 @@ app.post('/actualizarCalificacion', (req, res) => {
 // Cerrar sesión
 app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
-      if (err) {
-          console.error('Error al cerrar sesión:', err);
-          res.status(500).send('Error interno del servidor');
-      } else {
-          res.status(200).send('Sesión cerrada exitosamente');
-      }
+    if (err) {
+      console.error('Error al cerrar sesión:', err);
+      res.status(500).send('Error interno del servidor');
+    } else {
+      res.status(200).send('Sesión cerrada exitosamente');
+    }
   });
 });
 
@@ -359,19 +389,36 @@ app.get('/calificaciones', (req, res) => {
   const matricula = req.session.matricula;
 
   if (!matricula) {
-      res.status(401).send('No autorizado');
-      return;
+    res.status(401).send('No autorizado');
+    return;
   }
 
-  const calificacionesQuery = 'SELECT matricula_estudiante, tipo, calificacion FROM calificacion WHERE calificacion IS NOT NULL AND matricula_estudiante = ?';
-  connection.query(calificacionesQuery, [matricula], (err, results) => {
-      if (err) {
-          console.error('Error al obtener las calificaciones:', err);
-          res.status(500).send('Error interno del servidor');
-          return;
-      }
-      res.status(200).json(results);
-  });
+  const calificacionesQuery = `
+  (SELECT tipo, calificacion, matricula_estudiante 
+   FROM calificacion 
+   WHERE calificacion IS NOT NULL 
+     AND matricula_estudiante = ? 
+     AND tipo = 'prueba' 
+   ORDER BY calificacion ASC 
+   LIMIT 5) 
+  UNION ALL 
+  (SELECT tipo, calificacion, matricula_estudiante 
+   FROM calificacion 
+   WHERE calificacion IS NOT NULL 
+     AND matricula_estudiante = ? 
+     AND tipo = 'final' 
+   ORDER BY calificacion ASC 
+   LIMIT 2)
+`;
+
+connection.query(calificacionesQuery, [matricula, matricula], (err, results) => {
+  if (err) {
+    console.error('Error al obtener las calificaciones:', err);
+    res.status(500).send('Error interno del servidor');
+    return;
+  }
+  res.status(200).json(results);
+});
 });
 
 
@@ -382,5 +429,5 @@ app.get('/', (req, res) => {
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-console.log(`Servidor escuchando en el puerto ${PORT}`);
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
