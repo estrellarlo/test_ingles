@@ -1,0 +1,101 @@
+/*respuestas*/
+/*basicas*/
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('Hi', 1);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('She', 2);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('are', 3);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('is', 4);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('her', 5);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('is/ from', 6);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('an / a / a', 7);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('those', 8);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('buses', 9);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('there is / there are', 10);
+
+/*intermedio*/
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('doesn’t she?', 11);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('used to', 12);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('clean / will go', 13);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('who', 14);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('would / could', 15);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('yet', 16);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('will be', 17);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('such / so', 18);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('do / play', 19);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('been reading', 20);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('get', 20);
+
+/*avanzado*/
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('had joined', 21);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('yet / still ', 22);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('consequence', 23);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('had gone / would have had', 24);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('that she go', 25);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('had gone', 26);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('have written', 27);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('such / so', 28);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('beautiful, round, wooden', 29);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('can', 30);
+
+INSERT INTO Respuestas (opcion1, opcion2,opcion3,correcta, id_pregunta)
+VALUES ('would become', 20);
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style_index.css">
+</head>
+<body>
+    <header class="header">
+        <div class="menu container">
+            <img src="recursos/Centro_de_idiomas-removebg-preview.png" height="70" class="logo"></a>
+        </div>
+    </header>
+
+    <div id="loginForm" class="form-class">
+        <h1>¡Bienvenido!</h1>
+        <form class="login-form" action="/login" method="post"> 
+            <div class="Nombre">
+                <input type="text" placeholder="Correo" name="correo"> 
+            </div>
+            <div class="Contraseña">
+                <input type="password" placeholder="Contraseña" name="contrasena"> 
+            </div>
+            <div class="recordar">
+                <a href="#" onclick="mostrarForm('recordar')">¿Olvidaste tu Contraseña?</a>
+            </div>
+            <div class="Inicio">
+                <input type="submit" value="Iniciar Sesión">
+                <p>¿Aún no tienes una cuenta? <a href="#" onclick="mostrarForm('signup')">Crear cuenta</a></p>
+            </div>
+        </form>
+    </div>
+    
+
+    <div id="recordarForm" class="form-class" style="display: none;">
+        <h1>Contraseña Olvidada</h1>
+        <form class="recordar-form">
+            <div class="Correo">
+                <p>Ingresa tu correo</p>
+                <input type="text" placeholder="Correo">
+            </div>
+            <div class="Registro">
+                <input type="submit" value="Enviar Código">
+            </div>
+        </form>
+    </div>
+
+    <div id="signupForm" class="form-class" style="display: none;">
+        <h1>Crear Cuenta</h1>
+        <form id="registroForm" class="signup-form">
+            <div class="Nombre">
+                <input type="text" placeholder="Nombre" id="nombre">
+            </div>
+            <div class="Matricula">
+                <input type="text" placeholder="Matricula" id="matricula">
+            </div>
+            <div class="Correo">
+                <input type="text" placeholder="Correo" id="correo">
+            </div>
+            <div class="Contraseña">
+                <input type="password" placeholder="Contraseña" id="contrasena">
+            </div>
+            <div class="Registro">
+                <input type="submit" value="Registro" id="registroBtn">
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        const quizData = JSON.stringify(preguntas);
+        const matricula = "<%= matricula %>";
+      </script>
+    <script src="script_usuario.js"></script>
+</body>
+</html>

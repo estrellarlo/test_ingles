@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Ingles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="encabezado">
+    <div class="menu container">
+      <img src="recursos/Centro_de_idiomas-removebg-preview.png" height="70" class="logo"></a>
+    </div>
+  </header>
+
+  <div class="start-screen">
+    <h1>Hola <span id="nombre"></span></h1>
+    <h2>Elige el examen que vas a resolver</h2>
+    <p><br></p>
+    <button id="start-button">Examen de prueba</button>
+    <p><br></p>
+    <button id="final-button">Examen Final</button>
+    <p><br></p>
+    <h3>Antes de realizar el examen, toma en cuenta que puedes presentar el examen de prueba un máximo de
+      cinco veces, mientras que, el examen final solo podrás presentarlo dos veces. 
+      Al finalizar el examen, obtendrás la calificación y el nivel
+      al que fuiste asignado. Es necesario obtener una calificación igual o superior a 70 para aprobar. </h3>
+      <br><h2>¡Buena suerte!</h2>
+  </div>
+
+  <div id="calificaciones-container" class="hide">
+    <h1>Mis Calificaciones</h1>
+    <p>Estado: <span id=""></span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo de examen</th>
+          <th>Calificación</th>
+        </tr>
+      </thead>
+      <tbody id="calificaciones-tbody">
+        <!-- Calificaciones se cargarán aquí -->
+      </tbody>
+    </table>
+    <p>Tu nivel de inglés es <span id="nivel"></span></p>
+    <button id="close">Cerrar</button>
+  </div>
+
+
+  <div id="display-container">
+    <div class="header">
+      <div class="number-of-count">
+        <span class="number-of-question"></span>
+      </div>
+
+      <div class="timer-div">
+        <img src="https://i.postimg.cc/q7BCXNDy/timer-icon.png" />
+        <span class="time-left">60s</span>
+      </div>
+
+    </div>
+    <div id="container"></div>
+    <button id="next-button">Next</button>
+  </div>
+
+  <div class="score-container hide">
+    <h2><span id="user-score"></span></h2>
+    <button id="restart">Regresar</button>
+  </div>
+
+  <div id="session-container">
+    <button id="cerrar">Cerrar sesión</button>
+    <button id="intentos">Ver mis examenes</button>
+  </div>
+
+
+  <!--div id="maximo-container hide">
+    <h3>HAZ ALCANZADO EL NÚMERO MÁXIMO DE INTENTOS</h3>
+    <button id="restart">Regresar</button>
+  </div-->
+
+  <script src="cuestionario.js"></script>
+</body>
+
+</html>

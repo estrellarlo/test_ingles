@@ -1,0 +1,211 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    font-family: sans-serif;
+    background: rgb(90,89,102);
+    background: linear-gradient(90deg, rgba(90,89,102,1) 0%, rgba(163,163,181,1) 50%, rgba(70,83,85,1) 100%);
+}
+
+.header {
+    text-align: center;
+    height: 90vh;
+}
+
+.menu.container {
+    background-color: rgba(217, 138, 244, 0.775); 
+    padding: 0; 
+    width: 100%; 
+    max-width: 100%; 
+    box-sizing: border-box; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    height: 70px; 
+    line-height: 0; 
+  }
+
+.form-class{
+  padding: 30px 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 400px;
+  height: 480px;
+  background: white;
+  border-radius: 10px;
+}
+
+.form-class h1{
+    text-align: center;
+    color:rgb(80, 1, 183) ;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+
+.form-class form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.form-class .Correo {
+
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+.Correo input{
+    width: 100%;
+    padding: 0 10px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.Correo label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(50%);
+    font-size: 16px;
+}
+
+.form-class .Nombre{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 40px 0;
+}
+.Nombre input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.username label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(50%);
+    font-size: 16px;
+}
+.recordar {
+    margin-top: 10px;
+    padding-bottom: 25px; 
+}
+
+.recordar a{
+    color: rgb(79, 79, 79);
+    font-size: 14px;
+}
+
+.Inicio a
+{
+    text-decoration: none;
+    color: blue;
+    display: inline;
+    margin-left: 5px;
+}
+
+.Crear{
+    position: relative;
+    width: 100px;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+    text-decoration: none;
+}
+
+.form-class .Contraseña{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+
+.Contraseña input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.Contraseña label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(50%);
+    font-size: 16px;
+}
+
+.form-class .Matricula{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+
+.Matricula input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.Matricula label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(50%);
+    font-size: 16px;
+}
+
+.form-class .recordar{
+    margin: -15px 0 5px;
+    cursor: pointer;
+    font-size: 13px;
+     
+}
+
+
+
+input[type="submit"]{
+    width: 100%;
+    height: 50px;
+    border: 1px solid;
+    background: rgb(80, 1, 183);
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 60px;
+}
+@media(max-width:575px){
+    body::after,
+    body::before{
+        height:250px;
+        width:250px;
+        filter:blur(100px)
+    }
+    
+}
